@@ -1,6 +1,7 @@
 ﻿Console.Clear();
 
 // Task 47
+
 // Задайте двумерный массив размером m×n, заполненный случайными вещественными числами.
 /*
 void InputAndPrintMatrix(double[,] matrix) // заполнение массива и его вывод
@@ -24,6 +25,7 @@ InputAndPrintMatrix(matrix);
 */
 
 // Task 50
+
 // Напишите программу, которая на вход принимает позиции элемента в двумерном массиве, 
 // и возвращает значение этого элемента или же указание, что такого элемента нет.
 /*
@@ -54,6 +56,7 @@ else
 */
 
 // Task 52
+
 // Задайте двумерный массив из целых чисел. Найдите среднее арифметическое элементов в каждом столбце.
 /*
 void InputAndPrintMatrix(int[,] matrix)
@@ -90,38 +93,25 @@ Console.WriteLine();
 SredArifmetStolb(matrix);
 */
 
-// Task 364  - не решил
+// Task 364
+
 // Даны числа n и m. Создайте массив А[n][m] и заполните его по диагонали.
 /*
-void DiagonInputMatrix(int[,] matrix)
+void DiagInp(int[,] matrix)
 {
-    int p = 0, i, j;
-    for (int k = 0; k < matrix.GetLength(0); k++)
+    int i, j, row = 0, col = 0, n = 0;
+    while (row <= matrix.GetLength(0) - 1)
     {
-        i = 0;
-        j = k;
-        while (i <= matrix.GetLength(1) && j > 0)
+        i = row;
+        j = col;
+        while (i < matrix.GetLength(0) && j >= 0)
         {
-            matrix[i, j] = k;
-            i++;
-            j--;
-            p++;
+            matrix[i++, j--] = n++;
         }
-    }
-    for (int k = 1; k < matrix.GetLength(1); k++)
-    {
-        i = k;
-        j = matrix.GetLength(0);
-        while (i <= matrix.GetLength(1) && j > 0)
-        {
-          matrix[i, j] = k;
-            i++;
-            j--;
-            p++;  
-        }
+        if( col < matrix.GetLength(1) - 1) col++;
+        else row++;
     }
 }
-
 void PrintMatrix(int[,] matrix)
 {
     for (int i = 0; i < matrix.GetLength(0); i++)
@@ -138,11 +128,13 @@ Console.Write("Введите размеры массива через проб�
 int[] size = Console.ReadLine().Split().Select(x => int.Parse(x)).ToArray();
 int[,] matrix = new int[size[0], size[1]];
 int r = size[0] * size[1];
-DiagonInputMatrix(matrix);
+DiagInp(matrix);
 PrintMatrix(matrix);
+
 */
 
 // Task 1236
+
 // Задана целочисленная матрица, состоящая из N строк и M столбцов. 
 // Требуется транспонировать ее относительно горизонтали.
 /*
@@ -197,25 +189,53 @@ PrintMatrix(matrix);
 */
 
 // Task 715
-// Миша негатив. найти различия в оригинале и неативе
 
-void InputAndPrintMatrix(string[,] matrix)
+// Миша негатив. найти различия в оригинале и негативе
+
+void InputPrintPhoto(string[,] matrix)
 {
     for (int i = 0; i < matrix.GetLength(0); i++)
     {
         for (int j = 0; j < matrix.GetLength(1); j++)
         {
-            matrix[i, j] = "W";
+            if(i % 2 == 0 && j == 0 || i % 2 == 0 && j == 3 ) matrix[i, j] = "W";
+            else matrix[i, j] = "B";
+            Console.Write($"{matrix[i, j]} \t");
+        }
+        Console.WriteLine();
+    }
+}
+void MakeNegativ(string[,] matrix)
+{
+    for (int i = 0; i < matrix.GetLength(0); i++)
+    {
+        for (int j = 0; j < matrix.GetLength(1); j++)
+        {
+            if(i % 2 == 0 && j == 0 || i >= 1 && j == 3) matrix[i, j] = "B";
+            else matrix[i, j] = "W";
             Console.Write($"{matrix[i, j]} \t");
         }
         Console.WriteLine();
     }
 }
 
-
-
+int ChekNegotive(string[,] matrix1, string[,] matrix2)
+{
+    int fault = 0;
+    for (int i = 0; i < matrix1.GetLength(0); i++)
+    {
+        for (int j = 0; j < matrix1.GetLength(1); j++)
+        {
+            if( matrix1[i, j] == matrix2[i, j]) fault++;
+        }
+     }
+     return fault;
+}
 Console.Write("Введите размеры массива: ");
 int[] size = Console.ReadLine().Split().Select(x => int.Parse(x)).ToArray();  
-string[,] matrix = new string[size[0], size[1]];
-InputAndPrintMatrix(matrix);
-
+string[,] Photo = new string[size[0], size[1]];
+string[,] Negativ = new string[size[0], size[1]];
+InputPrintPhoto(Photo);
+Console.WriteLine();
+MakeNegativ(Negativ);
+Console.WriteLine($"Количество ошибок : {ChekNegotive(Photo, Negativ)}");
